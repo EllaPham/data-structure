@@ -13,16 +13,18 @@ public class SList {
 
     private Node head;
     private int size;
-
+//Khoi tao 1 Single linked list
     public SList() {
         head = null;
         size = 0;
     }
 
+    //tinh kich thuoc size cua linked list
     public Integer size() {
         return size;
     }
 
+    //Kiem tra  Linked list empty hay khong
     public boolean empty() {
         return head == null;
     }
@@ -40,6 +42,7 @@ public class SList {
         return X.item;
     }
 
+    //Insert 1 phan tu vao dau linked list
     public Node push_front(int value) {
         Node Node1 = new Node(value, head);
         head = Node1;
@@ -47,12 +50,14 @@ public class SList {
         return Node1;
     }
 
+    //Xoa 1 phan tu o dau linked list
     public Integer pop_front() {
         int value = head.item;
         head = head.next;
         return value;
     }
 
+    //Insert 1 phan tu vao cuoi linked list
     public Node push_back(int value) {
         Node new_node = new Node(value);
         Node X = head;
@@ -157,6 +162,7 @@ public class SList {
         return null;
     }
 
+    // dao nguoc linked list
     public boolean reverse() {
 
         if (head != null && head.next != null) {
@@ -177,6 +183,8 @@ public class SList {
         }
         return false;
     }
+    
+    //Tim va xoa phan tu co gia tri = value. phan tu dau tien tim thay
     public boolean remove_value(int value) {
         Node X = head;
         Node tmp = null;
