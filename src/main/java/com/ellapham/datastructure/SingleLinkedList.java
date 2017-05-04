@@ -9,12 +9,12 @@ package com.ellapham.datastructure;
  *
  * @author Trang
  */
-public class SList {
+public class SingleLinkedList {
 
     private Node head;
     private int size;
 //Khoi tao 1 Single linked list
-    public SList() {
+    public SingleLinkedList() {
         head = null;
         size = 0;
     }
