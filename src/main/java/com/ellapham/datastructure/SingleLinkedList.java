@@ -5,6 +5,8 @@
  */
 package com.ellapham.datastructure;
 
+import javax.swing.SpringLayout;
+
 /**
  *
  * @author Trang
@@ -26,164 +28,228 @@ public class SingleLinkedList {
         return size;
     }
 
-    //Kiem tra  Linked list empty hay khong
+    //Kiem tra  Linked list empty hay khong - test done
     public boolean empty() {
         return head == null;
     }
 
-    // tra ve gia tri cua node o vi tri index
+    // tra ve gia tri cua node o vi tri index - test done
     public Integer value_at(int index) {
         Node X = head;
-        for (int i = 1; i <= index; i++) {
-            if (X.next != null) {
+        if ((X != null) && (index < size) && (index >= 0)) {
+            for (int i = 0; i < index; i++) {
                 X = X.next;
-            } else {
-                return null;
             }
+            System.out.println("Value of index " + index + ": (" + X.item + ", " + X.next + ")");
+            return X.item;
+        } else {
+
+            System.out.println("Can not file node at index " + index);
+            return null;
         }
-        System.out.println(this.toString());
-        return X.item;
     }
 
     //Insert 1 phan tu vao dau linked list -  test done
-    public Node push_front(int value) {
+    public Integer push_front(int value) {
 
         Node N = new Node(value, head);
         head = N;
         size += 1;
         System.out.println(this.toString());
-        return N;
+        return N.item;
+
     }
 
     //Xoa 1 phan tu o dau linked list- test done
     public Integer pop_front() {
 
-       
-            
-            if(head!=null){
-                int value = head.item;
-                 head.item = 0;  
-                 head = head.next;
+        if (head != null) {
+            int value = head.item;
+            head.item = 0;
+            head = head.next;
             size = size - 1;
-            
+
             System.out.println(this.toString());
-            
-             return value;
-            }
-            else{
-                System.out.println("ERROR: Linked List is empty!");
-                return null;
-            }
-           
-            
-           
-            
-           
-       
+
+            return value;
+        } else {
+            System.out.println("ERROR: Linked List is empty!");
+            return null;
+        }
+
     }
 
-    //Insert 1 phan tu vao cuoi linked list - 2
-    public Node push_back(int value) {
+    //Insert 1 phan tu vao cuoi linked list - test done
+    public Integer push_back(int value) {
         Node new_node = new Node(value);
         Node X = head;
         if (head == null) {
             head = new_node;
-            return new_node;
+            size += 1;
+            System.out.println(this.toString());
+            return new_node.item;
         }
 
         while (X.next != null) {
             X = X.next;
         }
         X.next = new_node;
-        return new_node;
+        size += 1;
+        System.out.println(this.toString());
+        return new_node.item;
     }
 
-    //Xoa phan tu cuoi cua 1 linked list va tra ve gia tri cua phan tu bi xoa
+    //Xoa phan tu cuoi cua 1 linked list va tra ve gia tri cua phan tu bi xoa - test done
     public Integer pop_back() {
+
         Node X = head;
+        Node tmp = null;
         if (head != null) {
             while (X.next != null) {
+                tmp = X;
                 X = X.next;
+
             }
+            if (tmp != null) {
+                tmp.next = null;
+            }
+            X.item = 0;
+            size -= 1;
+            if (size == 0) {
+                head = null;
+            }
+
+            System.out.println(this.toString());
             return X.item;
+        } else {
+
+            System.out.println(this.toString());
+            return null;
         }
-        return null;
+
     }
 
-    // Tra ve gia tri cua phan tu dau tien cua linked list
+    // Tra ve gia tri cua phan tu dau tien cua linked list - test done
     public Integer front() {
         if (head != null) {
+            System.out.println("value of first element: " + head.item);
             return head.item;
         }
+        System.out.println("Linked list is empty!");
         return null;
     }
 
-    //Lay value cua phan tu cuoi cua linked list
+    //Lay value cua phan tu cuoi cua linked list - test done
     public Integer back() {
         Node X = head;
         if (head != null) {
             while (X.next != null) {
                 X = X.next;
             }
+            System.out.println("value of last element: " + X.item);
             return X.item;
         }
+        System.out.println("Linked list is empty!");
         return null;
     }
 
-    // them 1 node moi, co gia tri la value, vao vi tri index cua linked list
+    // them 1 node moi, co gia tri la value, vao vi tri index cua linked list - test done
     public Integer insert(int index, int value) {
         Node X = head;
-
+        Node tmp = null;
+        if (index == 0) {
+            return push_front(value);
+        }
         if (head != null) {
-            for (int i = 0; i < index; i++) {
-                X = X.next;
+
+            if (index >= size) {
+                System.out.println("ERROR: invalid index!!!");
+                return null;
             }
-            Node N = new Node(value, X);
-            X = N;
-            return value;
+//            if (index == size) {
+//                return push_back(value);
+//            }
+
+            if (index > 0 && index < size) {
+
+                for (int i = 0; i < index; i++) {
+                    tmp = X;
+                    X = X.next;
+                }
+                Node N = new Node(value, X);
+
+                tmp.next = N;
+
+                N.next = X;
+                size += 1;
+                System.out.println(this.toString());
+                return value;
+
+            }
+
         }
 
+        System.out.println("ERROR:Invalid index!!!");
         return null;
 
     }
 
-    //Xoa mot phan tu o vi tri index
+    //Xoa mot phan tu o vi tri index - test done
     public Integer erase(int index) {
         Node X = head;
         Node temp = X;
         if (head != null) {
-            for (int i = 1; i < index; i++) {
-                temp = X;
-                X = X.next;
-
+            if (index == 0) {
+                return pop_front();
             }
-            temp.next = X.next;
-            return temp.item;
+            if (index >= size) {
+                System.out.println("ERROR: invalid index!");
+                return null;
+            }
+            if (index < size) {
+                for (int i = 1; i <= index; i++) {
+                    temp = X;
+                    X = X.next;
+
+                }
+
+                temp.next = X.next;
+                X.item = 0;
+                size -= 1;
+                System.out.println(this.toString());
+                return temp.item;
+            }
+
         }
+
+        System.out.println("ERROR: linked list is empty!");
         return null;
+
     }
 
     // tra ve value cua phan tu thu n, tinh tu cuoi cua linked list
     public Integer value_n_from_end(int index) {
         Node X = head;
         int count = 0;
+        Node tmp  = null;
         if (head != null) {
-            while (X.next != null) {
-                X = X.next;
-                count += 1;
+            if(index>=size || size <0){
+                System.out.println("ERROR: Invalid index!!!");
             }
-            if (index <= count) {
-                for (int i = index; i >= 1; i--) {
-
-                    X.next = X;
+                    
+            if (index < count) {
+                for (int i =0;i<index ;i++) {
+                     tmp = X;
+                   X=X.next;
 
                 }
-                X = X.next;
-                return X.item;
+                
+                System.out.println("Value of element index " + index+": " + tmp.item);
+                return tmp.item;
             }
-            return null;
+            
         }
-
+        System.out.println("ERROR:Linked list is empty! cant not found element index " + index);
         return null;
     }
 
@@ -228,25 +294,25 @@ public class SingleLinkedList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Node X = head;
-       
-            while (X != null) {
-                Node tmp = X;
-                X = X.next;
-                if (tmp.
-                        item != 0) {
-                    sb.append("(").append(tmp.item).append(",").append(tmp.next).append(")");
-                } else {
-                    sb.append("----");
-                }
-                
+
+        while (X != null) {
+            Node tmp = X;
+            X = X.next;
+            if (tmp.item != 0) {
+                sb.append("(").append(tmp.item).append(",").append(tmp.next).append(")");
+            } else {
+                sb.append("----");
             }
-                        
-            if(head!=null){
-        sb.append("  *** ").append(size).append("  ").append(head.item).append("  ").append(head.next);
-            }
-        else {
-               sb.append("  *** ").append(size).append("  ").append("head: NULL");
-                }
+
+        }
+
+        if (head != null) {
+            sb.append("  *** ").append(size).append("  ").append(head.item).append("  ").append(head.next).append(" **** ").append("isEmpty:").append(this.empty());
+
+        } else {
+            sb.append("  *** ").append(size).append("  ").append("head: NULL").append(" **** ").append("isEmpty:").append(this.empty());
+        }
+
         return sb.toString();
 
     }
