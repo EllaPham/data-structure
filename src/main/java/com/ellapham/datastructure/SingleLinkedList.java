@@ -13,10 +13,12 @@ public class SingleLinkedList {
 
     private Node head;
     private int size;
+
 //Khoi tao 1 Single linked list
     public SingleLinkedList() {
         head = null;
         size = 0;
+
     }
 
     //tinh kich thuoc size cua linked list
@@ -39,25 +41,48 @@ public class SingleLinkedList {
                 return null;
             }
         }
+        System.out.println(this.toString());
         return X.item;
     }
 
-    //Insert 1 phan tu vao dau linked list
+    //Insert 1 phan tu vao dau linked list -  test done
     public Node push_front(int value) {
-        Node Node1 = new Node(value, head);
-        head = Node1;
+
+        Node N = new Node(value, head);
+        head = N;
         size += 1;
-        return Node1;
+        System.out.println(this.toString());
+        return N;
     }
 
-    //Xoa 1 phan tu o dau linked list
+    //Xoa 1 phan tu o dau linked list- test done
     public Integer pop_front() {
-        int value = head.item;
-        head = head.next;
-        return value;
+
+       
+            
+            if(head!=null){
+                int value = head.item;
+                 head.item = 0;  
+                 head = head.next;
+            size = size - 1;
+            
+            System.out.println(this.toString());
+            
+             return value;
+            }
+            else{
+                System.out.println("ERROR: Linked List is empty!");
+                return null;
+            }
+           
+            
+           
+            
+           
+       
     }
 
-    //Insert 1 phan tu vao cuoi linked list
+    //Insert 1 phan tu vao cuoi linked list - 2
     public Node push_back(int value) {
         Node new_node = new Node(value);
         Node X = head;
@@ -183,20 +208,47 @@ public class SingleLinkedList {
         }
         return false;
     }
-    
+
     //Tim va xoa phan tu co gia tri = value. phan tu dau tien tim thay
     public boolean remove_value(int value) {
         Node X = head;
-        Node tmp = null;
-        while(X.next!= null){
+        Node tmp;
+        while (X.next != null) {
             tmp = X;
             X = X.next;
-            if(X.item == value){
+            if (X.item == value) {
                 tmp.next = X.next;
                 return true;
             }
         }
         return false;
     }
-}
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node X = head;
+       
+            while (X != null) {
+                Node tmp = X;
+                X = X.next;
+                if (tmp.
+                        item != 0) {
+                    sb.append("(").append(tmp.item).append(",").append(tmp.next).append(")");
+                } else {
+                    sb.append("----");
+                }
+                
+            }
+                        
+            if(head!=null){
+        sb.append("  *** ").append(size).append("  ").append(head.item).append("  ").append(head.next);
+            }
+        else {
+               sb.append("  *** ").append(size).append("  ").append("head: NULL");
+                }
+        return sb.toString();
+
+    }
+
+}

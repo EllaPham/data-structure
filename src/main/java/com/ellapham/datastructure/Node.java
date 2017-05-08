@@ -17,12 +17,12 @@ public class Node {
     
 
     public Node(int i, Node n) {
-        item = i;
-        next = n;
+        this.item = i;
+        this.next = n;
     }
  
     public Node(int i){
-        item = i;
-        next = null;
+        this.item = i;
+        this.next = null;
     }
 }
