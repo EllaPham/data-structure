@@ -17,11 +17,11 @@ public class TestSingleLinkedList {
 
         SingleLinkedList aList = new SingleLinkedList();
 //        //  Test for push_front va pop_front
+        aList.push_front(11);
         aList.push_front(22);
         aList.push_front(33);
         aList.push_front(44);
         aList.push_front(55);
-        aList.push_front(66);
 //                 aList.push_front(11);
 
 //        aList.pop_front();
@@ -65,12 +65,34 @@ public class TestSingleLinkedList {
         //Test for xoa 1 phan tu tai vi tri index
 //        aList.erase(1);
       
-      //Lay gia tri cua phan tu index
-        aList.value_n_from_end(0);
-       
-       
-         
+//      //Lay gia tri cua phan tu index
+//      //  aList.value_n_from_end(0);
+//        
+//        aList.pop_back();
+//        aList.pop_back();
+//        aList.pop_back();
+//        aList.pop_back();
+//        aList.pop_back();
+//       
+//         aList.value_n_from_end(2);
+//        aList.value_n_from_end(0);
+//        aList.value_n_from_end(-1);
+//        aList.value_n_from_end(5);
+//        aList.value_n_from_end(6);
+               
+        //Quay nguoc lai linked list
+//        aList.reverse();
         
+        //Xoa phan tu tai vi tri index
+        
+//        aList.remove_value(7);
+//                aList.pop_back();
+//        aList.pop_back();
+//        aList.pop_back();
+//        aList.pop_back();
+//      aList.pop_back();
+//         aList.remove_value(66);
+        aList.reverse();
     }
 
 }

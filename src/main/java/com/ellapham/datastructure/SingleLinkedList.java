@@ -5,8 +5,6 @@
  */
 package com.ellapham.datastructure;
 
-import javax.swing.SpringLayout;
-
 /**
  *
  * @author Trang
@@ -227,65 +225,93 @@ public class SingleLinkedList {
 
     }
 
-    // tra ve value cua phan tu thu n, tinh tu cuoi cua linked list
+    // tra ve value cua phan tu thu n, tinh tu cuoi cua linked list - Test done
     public Integer value_n_from_end(int index) {
         Node X = head;
-        int count = 0;
-        Node tmp  = null;
+
         if (head != null) {
-            if(index>=size || size <0){
+            if (index > size || index <= 0) {
                 System.out.println("ERROR: Invalid index!!!");
+                return null;
             }
-                    
-            if (index < count) {
-                for (int i =0;i<index ;i++) {
-                     tmp = X;
-                   X=X.next;
+
+            if (index <= size) {
+                for (int i = 0; i < (size - index); i++) {
+
+                    X = X.next;
 
                 }
-                
-                System.out.println("Value of element index " + index+": " + tmp.item);
-                return tmp.item;
+
+                System.out.println("Value of element index " + index + ": " + X.item);
+                return X.item;
             }
-            
+
         }
         System.out.println("ERROR:Linked list is empty! cant not found element index " + index);
         return null;
     }
 
-    // dao nguoc linked list
+    // dao nguoc linked list -??????????
     public boolean reverse() {
 
         if (head != null && head.next != null) {
             Node X = head;
             Node back = null;
             Node front = X.next; //Front = N2
-            while (front.next != null) {
+            while (front.next != null) { //front.next !
                 X.next = back;
                 back = X;
                 X = front;
                 front = front.next;
-
             }
+            X.next = back;
             head = front;
             front.next = X;
-
+            System.out.println(this.toString());
             return true;
         }
+        System.out.println("ERROR: Linked list is empty!!!");
         return false;
     }
 
-    //Tim va xoa phan tu co gia tri = value. phan tu dau tien tim thay
+    //Tim va xoa phan tu co gia tri = value. phan tu dau tien tim thay - test done
     public boolean remove_value(int value) {
         Node X = head;
         Node tmp;
-        while (X.next != null) {
-            tmp = X;
-            X = X.next;
-            if (X.item == value) {
-                tmp.next = X.next;
-                return true;
+        if (head != null) {
+            if (X.next == null) {
+                if (X.item == value) {
+                    X.item = 0;
+                    X = null;
+                    head = null;
+                    size-=1;
+                    System.out.println(this.toString());
+                   
+                    return true;
+                }
+                else {
+                    System.out.println("The element with value " + value + " does not exist!");
+                    return false;
+                }
             }
+            while (X.next != null) {
+                tmp = X;
+                X = X.next;
+                if (X.item == value) {
+                    tmp.next = X.next;
+                    X.item = 0;
+                    size -=1;
+                    System.out.println(this.toString());
+                    return true;
+                } else {
+                    System.out.println("The element with value " + value + " does not exist!");
+                    return false;
+                }
+            }
+        } else {
+            System.out.println("ERROR:Linked list is empty!!!");
+
+            return false;
         }
         return false;
     }
@@ -303,7 +329,6 @@ public class SingleLinkedList {
             } else {
                 sb.append("----");
             }
-
         }
 
         if (head != null) {
