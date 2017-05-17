@@ -19,10 +19,5 @@ public class Node {
     public Node(int i, Node n) {
         this.item = i;
         this.next = n;
-    }
- 
-    public Node(int i){
-        this.item = i;
-        this.next = null;
-    }
+    } 
 }

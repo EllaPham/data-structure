@@ -79,7 +79,7 @@ public class SingleLinkedList {
 
     //Insert 1 phan tu vao cuoi linked list - test done
     public Integer push_back(int value) {
-        Node new_node = new Node(value);
+        Node new_node = new Node(value,null);
         Node X = head;
         if (head == null) {
             head = new_node;
