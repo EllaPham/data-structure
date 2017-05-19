@@ -5,8 +5,6 @@
  */
 package com.ellapham.datastructure;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Trang
@@ -14,7 +12,7 @@ import java.util.ArrayList;
 public class BinarySearchTree {
 
     public TreeNode root = null;
-    public TreeNode currentNode = null;
+
     public int h = 0;
 
     //insert value into tree
@@ -52,52 +50,81 @@ public class BinarySearchTree {
     }
 
     // get count of values stored
-    public Integer get_node_count() {
-        return null;
+    private Integer get_node_count(TreeNode aNode) {
+        int count = 0;
+        if (aNode == null) {
+
+            return 1;
+        } else {
+
+            count += get_node_count(aNode.left);
+            count += get_node_count(aNode.right);
+
+        }
+        return count;
     }
 
-    // prints the values in the tree, from min to max
+    public Integer getNumberOfNode() {
+        return get_node_count(root) - 1;
+    }
+
+// prints the values in the tree, from min to max
     public void print_values(TreeNode node) {
+        if (node == null) {
+            System.out.println("null");
+        }
         if (node != null) {
             // print everything that's earlier than this node
             print_values(node.left);
 
             // print this node's value
-            
-                System.out.println(node.value);
-           
+            System.out.println(node.value);
 
             // print everything that's afterthan this node
             print_values(node.right);
-        }
-        else{
-            System.out.println("Binary search tree is empty!");
-        }
 
+        }
     }
 
-    public void delete(TreeNode aNode) {
-        while (aNode != null) {
-            if (aNode.left != null && aNode.right != null) {
-                aNode = aNode.left;
-                delete(aNode.left);
-                delete(aNode.right);
+    public void delete_all_tree() {
+        delete(root);
+        root = null;
+    }
 
-            } else {
-                aNode = null;
-                root = aNode;
-            }
+    private void delete(TreeNode aNode) {
+        if (aNode == null) {
+            return;
         }
+        delete(aNode.left);
+        delete(aNode.right);
+        aNode.left = null;
+        aNode.right = null;
+        aNode.value = 0;
 
     }
 
     public Boolean is_in_tree(int value) {
+        TreeNode X;
+        if (root == null) {
+            return false;
+        } else {
+            X = root;
+            while (X != null) {
+                if (value < X.value) {
+                    X = X.left;
+                } else if (value > X.value) {
+                    X = X.right;
+                } else {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     public Integer get_height(TreeNode aNode) {
         if (aNode == null) {
-            
+
             return -1;
         }
 
@@ -112,19 +139,121 @@ public class BinarySearchTree {
     }
 
     public Integer get_min() {
-        return null;
+        TreeNode X;
+
+        X = root;
+
+        while (X.left != null) {
+
+            X = X.left;
+        }
+        return X.value;
+    }
+
+    private TreeNode get_min(TreeNode aNode) {
+        TreeNode X;
+
+        X = aNode;
+
+        while (X.left != null) {
+
+            X = X.left;
+        }
+        return X;
     }
 
     public Integer get_max() {
-        return null;
+        TreeNode X;
+
+        X = root;
+
+        while (X.right != null) {
+
+            X = X.right;
+        }
+        return X.value;
+
     }
 
-    public Boolean is_binary_search_tree() {
-        return false;
+    public Boolean is_binary_search_tree(TreeNode aNode) {
+      
+        if (aNode == null) {
+            return true;
+        }
+       
+        if ((aNode.left!=null && aNode.value < aNode.left.value) 
+                || (aNode.right!= null && aNode.value > aNode.right.value)) {
+            return false;
+        } else {
+            return is_binary_search_tree(aNode.left) && is_binary_search_tree(aNode.right);
+            
+        }
+     
     }
 
-    public Integer delete_value(int value) {
-        return null;
+    public Boolean delete_value(int value) {
+        TreeNode X = root;
+        TreeNode aNode = null;
+        TreeNode parentNode = null;
+        TreeNode minNode = null;
+        System.out.println("start delte");
+        while (X != null) {
+            if (value < X.value) {
+                System.out.println("value < X.value");
+                parentNode = X;
+                X = X.left;
+            } else if (value > X.value) {
+                System.out.println("value > X.value");
+                parentNode = X;
+                X = X.right;
+            } else {
+                System.out.println("value = X.value");
+                aNode = X;
+                break;
+            }
+        }
+        System.out.println("finished while, X found");
+        if (aNode == null) {
+            return false;
+        }
+        System.out.println("aNode is not null");
+        if (aNode.left == null && aNode.right == null) {
+            System.out.println("aNode is leaf");
+            if (aNode.value < parentNode.value) {
+                parentNode.left = null;
+            } else {
+                parentNode.right = null;
+            }
+
+            return true;
+        }
+        if (aNode.left != null && aNode.right == null) {
+            parentNode.left = aNode.left;
+
+            return true;
+        }
+        if (aNode.right != null && aNode.left == null) {
+            parentNode.right = aNode.right;
+
+            return true;
+
+        }
+        if (aNode.right != null && aNode.left != null) {
+
+            minNode = get_min(aNode.right);
+            if (aNode.value < parentNode.value) {
+                parentNode.left = minNode;
+            } else {
+                parentNode.right = minNode;
+            }
+            minNode.left = aNode.left;
+            if (aNode.right.value != minNode.value) {
+                minNode.right = aNode.right;
+
+                return true;
+            }
+        }
+        return true;
     }
 
     //returns next-highest value in tree after given value, -1 if none
