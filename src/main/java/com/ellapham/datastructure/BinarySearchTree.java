@@ -5,6 +5,8 @@
  */
 package com.ellapham.datastructure;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Trang
@@ -12,7 +14,7 @@ package com.ellapham.datastructure;
 public class BinarySearchTree {
 
     public TreeNode root = null;
-
+    public ArrayList<TreeNode> myArrayList = new ArrayList<TreeNode>();
     public int h = 0;
 
     //insert value into tree
@@ -85,6 +87,24 @@ public class BinarySearchTree {
 
         }
     }
+     public void printBST(TreeNode node,int heigh) {
+         
+       
+        if (node != null) {
+             // print this node's value
+            String margin ="";
+            for(int i=0;i<heigh;i++){
+                margin = margin + "--";                      
+            }
+            
+             System.out.println(margin + node.value);
+            // print everything that's earlier than this node
+            printBST(node.left,heigh+1);
+            // print everything that's afterthan this node
+            printBST(node.right,heigh+1);
+
+        }
+    }
 
     public void delete_all_tree() {
         delete(root);
@@ -103,10 +123,10 @@ public class BinarySearchTree {
 
     }
 
-    public Boolean is_in_tree(int value) {
+    public TreeNode is_in_tree(int value) {
         TreeNode X;
         if (root == null) {
-            return false;
+            return null;
         } else {
             X = root;
             while (X != null) {
@@ -115,11 +135,11 @@ public class BinarySearchTree {
                 } else if (value > X.value) {
                     X = X.right;
                 } else {
-                    return true;
+                    return X;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     public Integer get_height(TreeNode aNode) {
@@ -176,19 +196,19 @@ public class BinarySearchTree {
     }
 
     public Boolean is_binary_search_tree(TreeNode aNode) {
-      
+
         if (aNode == null) {
             return true;
         }
-       
-        if ((aNode.left!=null && aNode.value < aNode.left.value) 
-                || (aNode.right!= null && aNode.value > aNode.right.value)) {
+
+        if ((aNode.left != null && aNode.value < aNode.left.value)
+                || (aNode.right != null && aNode.value > aNode.right.value)) {
             return false;
         } else {
             return is_binary_search_tree(aNode.left) && is_binary_search_tree(aNode.right);
-            
+
         }
-     
+
     }
 
     public Boolean delete_value(int value) {
@@ -258,6 +278,50 @@ public class BinarySearchTree {
 
     //returns next-highest value in tree after given value, -1 if none
     public Integer get_successor(int value) {
+        TreeNode aNode = is_in_tree(value);
+        if (aNode != null && aNode.right != null) {
+            return aNode.right.value;
+        }
         return null;
     }
+    public int getMidPoint(int first, int end){
+        return (first + (end-first)/2);
+    }
+    private void getMyArray(TreeNode aNode){
+         
+        if (aNode != null) {
+            // print everything that's earlier than this node
+            getMyArray(aNode.left);
+
+            // print this node's value
+            myArrayList.add(aNode);
+
+            // print everything that's afterthan this node
+            getMyArray(aNode.right);
+
+        }
+      
+    }
+    public void balanceBST(){
+        myArrayList.clear();
+        getMyArray(root);
+        System.out.println("my array " + myArrayList.size());
+        root = buildBalanceBST(0,myArrayList.size()-1);
+        printBST(root, 0);
+    }
+    private TreeNode buildBalanceBST(int first, int end) {
+         if(first>end){
+            return null;
+        }
+        int midpoint = first + (end-first)/2;
+        TreeNode n = myArrayList.get(midpoint);
+       
+       
+        n.left = buildBalanceBST(first, midpoint-1);
+        
+        n.right = buildBalanceBST(midpoint+1, end);
+         
+        return n;
+    }
+
 }
