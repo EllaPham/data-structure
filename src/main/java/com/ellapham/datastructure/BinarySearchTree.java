@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class BinarySearchTree {
 
     public TreeNode root = null;
-    public ArrayList<TreeNode> myArrayList = new ArrayList<TreeNode>();
+    public ArrayList<TreeNode> myArrayList = new ArrayList<>();
     public int h = 0;
 
     //insert value into tree
