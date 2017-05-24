@@ -5,8 +5,10 @@
  */
 package com.ellapham.datastructure;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import javax.swing.SpringLayout;
 
 /**
  *
@@ -16,6 +18,7 @@ public class MaxHeap {
 
     public heapNode heapRoot;
     public int h;
+    public int size = 0;
 
     Queue<heapNode> queueData = new LinkedList<>();
 
@@ -30,12 +33,15 @@ public class MaxHeap {
             if (X.left != null) {
                 queueData.add(X.left);
                 queue.add(X.left);
+
             }
             if (X.right != null) {
                 queueData.add(X.right);
                 queue.add(X.right);
+
             }
             X = queue.poll();
+
         }
 
     }
@@ -46,29 +52,128 @@ public class MaxHeap {
             heapRoot = n;
 
         } else {
-            builHeap(n);
+            this.getHeapArray();
+            queueData.add(n);
+            builHeap(queueData);
             sift_up(n);
-            System.out.println("Print heap after sift-up: ");
-            printBST(heapRoot, 0);
         }
 
     }
 
-    private void builHeap(heapNode n) {
-        this.getHeapArray();
-        queueData.add(n);
+    public Boolean is_Empty() {
+        if (heapRoot == null) {
+            return true;
+        }
+        return false;
+    }
 
+    public heapNode getMax() {
+        if (heapRoot != null) {
+            return heapRoot;
+        }
+        return null;
+    }
+
+    public Integer getSize() {
+        heapNode X = null;
+
+        if (heapRoot == null) {
+            return size = 0;
+        } else {
+            X = heapRoot;
+            size = 1;
+            getHeapArray();
+            while (!queueData.isEmpty()) {
+                if (X != null) {
+                    X = queueData.poll();
+                    size += 1;
+                }
+
+            }
+
+//            System.out.println("QUEUE DATA = " + queueData);
+//            System.out.println("SIZE of queuedata: " + queueData.size());
+//            size = queueData.size()+1;
+//            System.out.println("SIZE OF HEAP = " + size);
+        }
+        System.out.println("size of heap= " + size);
+        return size;
+    }
+
+    public void Sift_down() {
+
+    }
+
+    public heapNode extract_max() {
+        ArrayList<Integer> arr = new ArrayList<>();
+        getHeapArray();
+        heapNode X = null;
+        heapNode temp = heapRoot;
+        heapRoot = null;
+        while (!queueData.isEmpty()) {
+            arr.add(queueData.peek().value);
+            X = queueData.poll();
+        }
+        heapify(arr);
+        return temp;
+
+    }
+
+    public heapNode remove(int index) {
+        Queue<heapNode> tempQueue=new LinkedList<>();
+        ArrayList<Integer> myArr=new ArrayList<>();
+        getHeapArray();
+        heapNode n = null;
+        for(int i=0;i<index-1;i++){
+            n = queueData.peek();
+        }
+        System.out.println("value of n: " + n.value);
+        
+         heapNode X=null;
+         myArr.add(heapRoot.value);
+       while(!queueData.isEmpty()){
+          X=queueData.poll();
+           if(n.value!=X.value){
+               myArr.add(X.value);
+               System.out.println("X.value = " + X.value);
+           }
+           
+       }
+        System.out.println("After while, arr = " + myArr);
+       heapRoot=null;
+        heapify(myArr);
+        return n;
+    }
+
+    public void heapify(ArrayList<Integer> array) {
+
+        
+
+        for (int i = 0; i < array.size(); i++) {
+
+            insert(array.get(i));
+        }
+
+    }
+
+    public ArrayList heap_sort() {
+        ArrayList<Integer> sortedArr = new ArrayList<>();
+
+        return null;
+    }
+
+    private void builHeap(Queue<heapNode> q) {
         heapNode X;
         X = heapRoot;
         Queue<heapNode> qTemp = new LinkedList<>();
-        while (!queueData.isEmpty()) {
+        while (!q.isEmpty()) {
 
-            X.left = queueData.poll();
+            X.left = q.poll();
             X.left.parent = X;
 
-            if (!queueData.isEmpty()) {
+            if (!q.isEmpty()) {
 
-                X.right = queueData.poll();
+                X.right = q.poll();
                 X.right.parent = X;
             } else {
 
@@ -99,12 +204,6 @@ public class MaxHeap {
             }
 
         }
-//        if(node1.value>heapRoot.value){
-//            temp.value= node1.value;
-//            node1.value=heapRoot.value;
-//            heapRoot.value = temp.value;
-//        }
-
     }
 
     public void printBST(heapNode node, int heigh) {
