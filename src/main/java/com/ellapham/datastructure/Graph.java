@@ -19,17 +19,17 @@ import java.util.Stack;
 public class Graph {
 
 //    public Set<GraphNode> nodes = new HashSet<>();
-    public List<GraphNode> nodes = new ArrayList<>();
+    public Set<GraphNode> nodes = new HashSet<>();
     public Set<GraphLink> links = new HashSet<>();
     public Stack<GraphNode> myStack = new Stack<>();
     public List<GraphNode> result = new ArrayList<>();
     public Boolean[][] ADJMatrix = new Boolean[100][100];
 
-    public List<GraphNode> getNodes() {
+    public  Set<GraphNode> getNodes() {
         return nodes;
     }
 
-    public void setNodes(List<GraphNode> nodes) {
+    public void setNodes( Set<GraphNode> nodes) {
         this.nodes = nodes;
     }
 
@@ -100,18 +100,19 @@ public class Graph {
         return lstNode;
     }
 
+
     public void setADJMatrix() {
         List<GraphNode> adjList = new ArrayList<>();
-        List<GraphNode> tmpList = nodes;
-
-        GraphNode tmpNode;
+         List<GraphNode> tmpList = new ArrayList<>(nodes);
+      
         this.init();
         for (int i = 0; i < tmpList.size(); i++) {
+             
             adjList = tmpList.get(i).adjacency;
             for (int j = 0; j < tmpList.size(); j++) {
 
                 if (!adjList.isEmpty() && adjList.contains(tmpList.get(j))) {
-                    ADJMatrix[i + 1][j + 1] = true;
+                    ADJMatrix[tmpList.get(i).value][tmpList.get(j).value] = true;
                 }
 
             }

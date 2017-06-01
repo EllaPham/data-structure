@@ -32,7 +32,7 @@ public class TestGraph {
 //        GraphLink link13 = new GraphLink(n1, n3, aGraph);
 //        GraphLink link31 = new GraphLink(n3, n1, aGraph);
 //        GraphLink link14 = new GraphLink(n1, n4, aGraph);
-//        GraphLink link41 = new GraphLink(n4, n1, aGraph);
+////        GraphLink link41 = new GraphLink(n4, n1, aGraph);
 //        GraphLink link45 = new GraphLink(n4, n5, aGraph);
 //        GraphLink link54 = new GraphLink(n5, n4, aGraph);
 //        GraphLink link25 = new GraphLink(n2, n5, aGraph);
@@ -46,21 +46,21 @@ public class TestGraph {
         n5.setAdjacency(n3, n4);
 
 //        System.out.println("DFS the graph start from node 1-using list: ");
-//        aGraph.DFS(n1);
+        aGraph.DFS(n1);
 //        System.out.println("DFS the graph start from node 1-using Stack: ");
 //        aGraph.DFSStack(n2);
         
 ////         Print adj of a node
-//       List<GraphNode> DFSList = new ArrayList<>();
+//        List<GraphNode> DFSList = new ArrayList<>();
 //        DFSList= aGraph.DFSStack(n1);
 //        System.out.println("PRINT GRAPH NODE: ");
 //        for(GraphNode i: DFSList){
-//            System.out.print(i.value+ "  ");
+//           System.out.print(i.value+ "  ");
 //        }
         
        aGraph.printADJMatrix();
         
         
    }
-}
+    }
 
