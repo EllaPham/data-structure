@@ -8,7 +8,9 @@ package com.ellapham.datastructure;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -22,14 +24,17 @@ public class Graph {
     public Set<GraphNode> nodes = new HashSet<>();
     public Set<GraphLink> links = new HashSet<>();
     public Stack<GraphNode> myStack = new Stack<>();
+    public List<GraphNode> matricStackResult = new ArrayList<>();
     public List<GraphNode> result = new ArrayList<>();
+    public List<GraphNode> BFSResult = new ArrayList<>();
     public Boolean[][] ADJMatrix = new Boolean[100][100];
+    public List<GraphNode> DFSMatrixResult = new ArrayList<>();
 
-    public  Set<GraphNode> getNodes() {
+    public Set<GraphNode> getNodes() {
         return nodes;
     }
 
-    public void setNodes( Set<GraphNode> nodes) {
+    public void setNodes(Set<GraphNode> nodes) {
         this.nodes = nodes;
     }
 
@@ -86,12 +91,125 @@ public class Graph {
         return result;
     }
 
-    public void DFSMatrix(GraphNode startNode) {
+    private void DFSMatrix(GraphNode start) {
+        List<GraphNode> adjList = new ArrayList<>();
+        this.setADJMatrix();
+
+        int tmp = -1;
+        GraphNode tmpNode = null;
+        if (!start.visited) {
+            DFSMatrixResult.add(start);
+        }
+        start.visited = true;
+        for (int i = 0; i < 100; i++) {
+            if (start.value == i) {
+                tmp = i;
+            }
+        }
+        for (int j = 0; j < 100; j++) {
+            if (ADJMatrix[tmp][j]) {
+                tmpNode = findNodeByValue(j);
+                if (!tmpNode.visited) {
+                    adjList.add(tmpNode);
+
+                }
+
+            }
+        }
+        for (GraphNode n : adjList) {
+            DFSMatrix(n);
+        }
+    }
+
+    private void DFSMatrixStack(GraphNode start) {
+        this.setADJMatrix();
+        int tmp = 0;
+        Stack<GraphNode> matrixStack = new Stack<>();
+        GraphNode tmpNode;
+        GraphNode aNode;
+        matricStackResult.add(start);
+        start.visited = true;
+        for (int i = 0; i < 100; i++) {
+            if (start.value == i) {
+                tmp = i;
+            }
+        }
+        for (int j = 0; j < 100; j++) {
+            if (ADJMatrix[tmp][j]) {
+                tmpNode = findNodeByValue(j);
+                if (!tmpNode.visited) {
+                    matrixStack.push(tmpNode);
+                }
+            }
+        }
+
+        while (!matrixStack.isEmpty()) {
+            aNode = matrixStack.pop();
+            matricStackResult.add(aNode);
+            aNode.visited = true;
+            for (int k = 0; k < 100; k++) {
+                GraphNode tmpNodek;
+                if (ADJMatrix[aNode.value][k]) {
+                    tmpNodek = findNodeByValue(k);
+                    if (!tmpNodek.visited) {
+                        matrixStack.push(tmpNodek);
+                    }
+                }
+            }
+            System.out.println(matrixStack);
+
+        }
 
     }
 
-    public void DFSMatrixStack(GraphNode startNode) {
+    private void BFS(GraphNode start) {
+        Queue<GraphNode> q = new LinkedList<>();
+        GraphNode tmpNode;
+        BFSResult.add(start);
+        start.visited = true;
+        q.addAll(start.adjacency);
+        while (!q.isEmpty()) {
+            tmpNode = q.poll();
+            if(!tmpNode.visited){
+                 BFSResult.add(tmpNode);
+            }
+           
+            tmpNode.visited = true;
+                                    
+            for (GraphNode n : tmpNode.adjacency) {
+                if (!n.visited) {
+                    q.add(n);
+                }
+            }
+        }
+    }
 
+    public void printBFS(GraphNode start) {
+        this.BFS(start);
+        System.out.println("BFS a graph result: ");
+        for (GraphNode n : BFSResult) {
+            System.out.print(n.value + "  ");
+        }
+    }
+
+    private void BFSMatrix(GraphNode start) {
+        this.setADJMatrix();
+    }
+
+    public void printDFSMatrixStack(GraphNode start) {
+        this.DFSMatrixStack(start);
+        System.out.println("DFS a graph using matrix & stack: ");
+        for (GraphNode n : matricStackResult) {
+            System.out.println(n.value + "  ");
+        }
+    }
+
+    public void printDFSMatric(GraphNode start) {
+        this.DFSMatrix(start);
+        System.out.println("DFS Using matric and recursive: ");
+        for (GraphNode n : DFSMatrixResult) {
+            System.out.print(n.value + "  ");
+        }
     }
 
     public List<GraphNode> getAdjNodes(GraphNode aNode) {
@@ -100,14 +218,13 @@ public class Graph {
         return lstNode;
     }
 
-
-    public void setADJMatrix() {
+    private void setADJMatrix() {
         List<GraphNode> adjList = new ArrayList<>();
-         List<GraphNode> tmpList = new ArrayList<>(nodes);
-      
+        List<GraphNode> tmpList = new ArrayList<>(nodes);
+
         this.init();
         for (int i = 0; i < tmpList.size(); i++) {
-             
+
             adjList = tmpList.get(i).adjacency;
             for (int j = 0; j < tmpList.size(); j++) {
 
@@ -120,7 +237,18 @@ public class Graph {
 
     }
 
+    private GraphNode findNodeByValue(int value) {
+
+        for (GraphNode n : nodes) {
+            if (n.value == value) {
+                return n;
+            }
+        }
+        return null;
+    }
+
     public Boolean[][] getADJMatrix() {
+
         return ADJMatrix;
     }
 
@@ -136,7 +264,7 @@ public class Graph {
 
     }
 
-    public void init() {
+    private void init() {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 100; j++) {
                 ADJMatrix[i][j] = false;

@@ -18,7 +18,7 @@ public class TestGraph {
 
     public static void main(String[] args) {
         Graph aGraph = new Graph();
-
+        
         GraphNode n1 = new GraphNode(1, aGraph);
         GraphNode n2 = new GraphNode(2, aGraph);;
         GraphNode n3 = new GraphNode(3, aGraph);
@@ -26,6 +26,7 @@ public class TestGraph {
         GraphNode n5 = new GraphNode(5, aGraph);
         GraphNode n6 = new GraphNode(6, aGraph);
         GraphNode n7 = new GraphNode(7, aGraph);
+        
 
 //        GraphLink link12 = new GraphLink(n1, n2, aGraph);
 //        GraphLink link21 = new GraphLink(n2, n1, aGraph);
@@ -46,7 +47,7 @@ public class TestGraph {
         n5.setAdjacency(n3, n4);
 
 //        System.out.println("DFS the graph start from node 1-using list: ");
-        aGraph.DFS(n1);
+//        aGraph.DFS(n1);
 //        System.out.println("DFS the graph start from node 1-using Stack: ");
 //        aGraph.DFSStack(n2);
         
@@ -58,9 +59,11 @@ public class TestGraph {
 //           System.out.print(i.value+ "  ");
 //        }
         
-       aGraph.printADJMatrix();
+//       aGraph.printADJMatrix();
         
-        
+        //Test for DFS using matric & de quy
+//    aGraph.printDFSMatrixStack(n1);
+        aGraph.printBFS(n1);
    }
     }
 
